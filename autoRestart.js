@@ -1,12 +1,12 @@
 import fetch from 'node-fetch';
 
 // رابط API لتشغيل السيرفر
-const SERVER_URL = 'https://api.magmanode.com/client/servers/14166bb8/power';
+const SERVER_URL = 'https://panel.magmanode.com/api/client/servers/14166bb8-8ffa-49ab-b27d-563dfb4d4575/power';
 
 // ضع مفتاح API مباشرة هنا
 const API_KEY = 'ptlc_d3DfVnhDIfVZpsh4wxpYPHLtMW7Sv1YBlDKkOOjULxB';
 
-// فترة التشغيل للتجربة: 5 دقائق (تستطيع تعديلها لاحقًا)
+// فترة التشغيل للتجربة: 5 دقائق (يمكن تعديلها لاحقًا)
 const DELAY = 5 * 60 * 1000;
 
 async function startServer() {
