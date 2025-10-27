@@ -1,0 +1,12 @@
+{
+  "name": "magma-auto",
+  "version": "1.0.0",
+  "main": "autoRestart.js",
+  "type": "module",
+  "scripts": {
+    "start": "node autoRestart.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
