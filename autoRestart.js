@@ -1,13 +1,13 @@
 import fetch from 'node-fetch';
+import http from 'http';
 
-// رابط API لتشغيل السيرفر مع Server ID الصحيح
+// رابط API لتشغيل السيرفر (Server ID تم وضعه)
 const SERVER_URL = 'https://panel.magmanode.com/api/client/servers/14166bb8-8ffa-49ab-b27d-563dfb4d4575/power';
 
-// مفتاح API مباشرة
+// ضع هنا مفتاح API الخاص بك
 const API_KEY = 'ptlc_d3DfVnhDIfVZpsh4wxpYPHLtMW7Sv1YBlDKkOOjULxB';
 
-// 5 ساعات و30 دقيقة = 5*60 + 30 = 330 دقيقة
-// بالمللي ثانية: 330 * 60 * 1000
+// 5 ساعات و30 دقيقة = 330 دقيقة -> بالمللي ثانية
 const DELAY = 330 * 60 * 1000;
 
 async function startServer() {
@@ -22,17 +22,24 @@ async function startServer() {
     });
 
     if (response.ok) {
-      console.log('✅ السيرفر اشتغل تلقائياً!');
+      console.log(new Date().toISOString(), '✅ السيرفر اشتغل تلقائياً!');
     } else {
-      console.log('❌ فشل تشغيل السيرفر:', await response.text());
+      const text = await response.text();
+      console.log(new Date().toISOString(), '❌ فشل تشغيل السيرفر:', text);
     }
   } catch (err) {
-    console.error('⚠️ خطأ في الاتصال:', err);
+    console.error(new Date().toISOString(), '⚠️ خطأ في الاتصال:', err.message || err);
   }
 }
 
-// تشغيل السيرفر فورًا عند بداية التطبيق
+// شغّل فورًا عند بداية التطبيق ثم جدول كل DELAY
 startServer();
-
-// إعادة التشغيل التلقائي كل 5 ساعات و30 دقيقة
 setInterval(startServer, DELAY);
+
+// اجعل Render يقبل الخدمة كموقع (يفتح منفذ) — لا يؤثر على عمل السكربت
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Bot is running ✅');
+}).listen(process.env.PORT || 3000, () => {
+  console.log('HTTP listener started on port', process.env.PORT || 3000);
+});
